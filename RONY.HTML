@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <style>
+            .content{
+                display: flex ;
+                flex-direction: row ;
+            }
+            .conteudo{
+                width: 200px;
+                padding: 20px;
+                background-color: #ddd;
+                display: flex ;
+                flex-direction: column;
+            }
+            .conteudo > input{
+                margin-bottom:5px;
+            }
+            .conteudo > label {
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif ;
+                font-size: 14px;
+                font-stretch: condensed;
+                font-weight: bold ;
+            }
+            .conteudo > button {
+                height: 35px;
+                border: 0;
+                border-radius: 2px;
+                font-size: 12px;
+                font-weight: bold ;
+                background: #f05a5b;
+                color: #fff;
+                cursor: pointer;
+            }
+        
+        </style>
+    </header>
+<body>
+
+
+<div>
+    <div class="content">
+            <div class="conteudo">
+                    <label for="">Dimensões</label>
+                    <input id="width" type="text" value="1000" placeholder="Digite o width :" >
+                    <input id="height" type="text" value="500" placeholder="Digite o height" >
+            </div>
+            <div class="conteudo">
+                    <label for="">Dimensão negativa</label>
+                    <input id="wNegativo" type="number" max="60" value="" placeholder="Largura Negativo" >
+                    <input id="hNegativo" type="number" max="60" value="" placeholder="Altura Negativo" >
+            </div>
+            <div class="conteudo">
+                    <label for="">Vogal</label>
+                    <input id="campo" type="text" value="" placeholder="Digite uma vogal" >
+                    <button onclick="exibirVogal(document.getElementById('campo').value)" value="submit"> Desenhar Vogal </button>
+            </div>
+    </div>
+    
+    
+    
+    
+    
+</div> 
+
+<canvas id="myCanvas" width="1000" height="700">
+.
+</canvas>
+
+<script>
+
+const branco =  "#fff";
+const preto    ='#000' ;
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+function desenharCanvas(){
+
+    canvas.setAttribute('width',document.getElementById('width').value);
+    canvas.setAttribute('height',document.getElementById('height').value);
+        
+        var i, j;                      
+            for(i=0; i < canvas.width; i=i+5){
+                for(j = 0; j < canvas.height; j=j+5){                    
+                    ctx.fillStyle = preto;
+                    ctx.fillRect(i, j, canvas.height/100, canvas.height/100);
+                }
+            }  
+}
+
+const vetorA =[
+    [0,0,0,0,0,0,0],
+    [0,0,1,1,1,0,0],
+    [0,0,1,0,1,0,0],
+    [0,0,1,1,1,0,0],
+    [0,0,1,0,1,0,0],
+    [0,0,0,0,0,0,0]
+] 
+
+const vetorE =
+[
+    [0,0,0,0,0,0,0],
+    [0,1,1,1,1,0,0],
+    [0,1,0,0,0,0,0],
+    [0,1,1,1,0,0,0],
+    [0,1,0,0,0,0,0],
+    [0,1,1,1,1,0,0],
+    [0,0,0,0,0,0,0]
+] 
+const vetorI =
+[
+    [0,0,0,0,0,0,0],
+    [0,0,0,1,0,0,0],
+    [0,0,0,0,0,0,0],
+    [0,0,0,1,0,0,0],
+    [0,0,0,1,0,0,0],
+    [0,0,0,1,0,0,0],
+    [0,0,0,1,0,0,0]
+] 
+const vetorO =
+[
+    [0,0,0,0,0,0,0],
+    [0,0,1,1,1,0,0],
+    [0,0,1,0,1,0,0],
+    [0,0,1,0,1,0,0],
+    [0,0,1,0,1,0,0],
+    [0,0,1,1,1,0,0],
+    [0,0,0,0,0,0,0]
+]
+const vetorU =
+[
+    [0,0,0,0,0,0,0],
+    [0,0,1,0,1,0,0],
+    [0,0,1,0,1,0,0],
+    [0,0,1,0,1,0,0],
+    [0,0,1,0,1,0,0],
+    [0,0,1,1,1,0,0],
+    [0,0,0,0,0,0,0]
+]
+
+function desenharVogal(vetor){
+    let i,j ;
+
+    let negW = document.getElementById('wNegativo').value/10 ;
+    let negH = document.getElementById('hNegativo').value/10 ;
+
+    for(i=0; i < 8; i++){
+        for(j = 0; j < 8; j++){   
+            
+            if(vetor[i][j] == 1){
+                ctx.fillStyle = (j<negW  && i<negH) ? preto : branco ; 
+            }else{
+                ctx.fillStyle =  (j<negW && i<negH) ? branco : preto ;
+            }           
+            
+            ctx.fillRect(j*10, i*10 , canvas.height/50, canvas.height/50);
+        }
+    } 
+}
+
+function exibirVogal(vogal){
+    desenharCanvas();
+    switch (vogal) {
+        case "a":
+            desenharVogal(vetorA);
+            break;
+        case "e":
+            desenharVogal(vetorE);
+            break;
+        case "i":
+            desenharVogal(vetorI);
+            break;
+        case "o":
+            desenharVogal(vetorO);
+            break;
+        case "u":
+            desenharVogal(vetorU);
+            break;
+    
+        default:
+            break;
+    }
+    
+}
+
+</script>
+
+</body>
+</html>
